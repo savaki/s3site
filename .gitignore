@@ -22,3 +22,9 @@ _testmain.go
 *.exe
 *.test
 *.prof
+
+# ignore compiled files
+/gin-bin
+/s3site
+/s3site.env
+
