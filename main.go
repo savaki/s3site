@@ -106,18 +106,18 @@ func S3Handler(opts *Options) (http.HandlerFunc, error) {
 			}
 		}
 
-		path := fmt.Sprintf("%s%s", opts.Prefix, req.RequestURI)
+		path := fmt.Sprintf("%s%s", opts.Prefix, req.URL.Path)
 		if strings.Contains(path, "//") {
 			path = strings.Replace(path, "//", "/", -1)
 		}
 		if strings.HasPrefix(path, "/") {
 			path = path[1:]
 		}
-		if strings.HasSuffix(req.RequestURI, "/") {
+		if strings.HasSuffix(req.URL.Path, "/") {
 			path = path + opts.IndexFile
 		}
 		if opts.Verbose {
-			log.Printf("> %s => s3://%s/%s\n", req.RequestURI, opts.Bucket, path)
+			log.Printf("> %s => s3://%s/%s\n", req.URL.Path, opts.Bucket, path)
 		}
 
 		readCloser, err := bucket.GetReader(path)
